@@ -1,70 +1,75 @@
 import { db } from '@/firebase';
+import { userActions } from '@/store/userSlice';
 import Button from '@/subComponents/Button';
 import Input from '@/subComponents/Input';
 import Select from '@/subComponents/Select';
 import Textarea from '@/subComponents/Textarea';
-import { addComplaint, deleteComplaint, updateComplaint, UpdateComplaint } from '@/utils/data';
+import { addComplaint, addUser, deleteComplaint, deleteUser, updateComplaint, UpdateComplaint, updateUser } from '@/utils/data';
 import { async } from '@firebase/util';
 import { doc, updateDoc } from 'firebase/firestore';
+import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-function Form({ form_label, update, defaultValues, disable, id }) {
+function Form({ form_label, defaultValues, disable, id, signUp,update }) {
+    const dispatch=useDispatch();
     const router = useRouter();
-    const { register, handleSubmit, watch, formState: { errors } } = useForm({
+    const { register, handleSubmit } = useForm({
         defaultValues: {
-            compliance_report: 'null',
             ...defaultValues
         }
     });
     const onSubmit = async (data) => {
         // alert( alert(JSON.stringify(data)));
-        if (update === false) {
-            const res = await addComplaint(data);
-            if (res?.id) {
-                router.push('/');
-                alert(`Complaint Added Successfully with id: ${res.id}`);
-            } else {
-                alert("Can't Add Complaint");
-                console.log(res);
-            }
+        let res;
+        if (update===true) {
+            console.log("id",defaultValues?.id);
+            res= await updateUser(defaultValues?.id,data);
         } else {
-            const res = await updateComplaint(form_label, data);
-            if (res.status === "success") {
-                router.push('/');
-                alert(`Complaint Updated Successfully!!`);
-            } else {
-                alert("Can't Update Complaint");
-            }
+            res = await addUser(data);
+        }
+        alert(res?.status);
+        if(res.error){
+            console.log(res.error);
+        }else{
+            dispatch(userActions.updateUser(data));
+            router.push('/');
         }
     }
     const user = useSelector(status => status?.user?.user);
-    const status = ["pending", "working", "completed"];
-    const thana = ["Thana 1", "Thana 2", "Thana 3"];
+    const type = ["worker", "contractor"];
     return (
         <div className='min-h-screen w-full flex items-center  flex-col space-y-5 py-5'>
-            <h2 className='text-2xl font-semibold'>{form_label}</h2>
+            <h2 className='text-2xl font-semibold'>{defaultValues?.name}</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-full md:w-3/4 max-w-7xl items-center py-10">
+                <Select options={type} register={register} required label={"User Type"} name="type" type="text" />
                 <Input register={register} required disable={disable?.name} label={"Name"} name="name" type="text" />
-                <Input register={register} required label={"Date"} disable={disable?.register_date} name="register_date" type="date" />
+                <Input register={register} required label={"Password"} name="password" type="password" />
                 <Input register={register} label={"Email"} name="email" disable={disable?.email} type="email" />
                 <Input register={register} required label={"Phone Number"} disable={disable?.phone} name="phone" type={'tel'} />
-                <Select label="Thana" options={thana} register={register} disable={disable?.thana} name="thana" />
-                <Input register={register} label={"Case Number"} disable={disable?.case_number} name="case_number" type="number" />
-                <Textarea register={register} required label={"Concerns"} disable={disable?.concern} name="concern" type="text" />
-                <Textarea register={register} label={"Compliance Report"} disable={disable?.compliance_report} name="compliance_report" type="text" />
-                <Input register={register} label={"Directions By SP Sir"} disable={disable?.directions} name="directions" type="text" />
-                <Input register={register} required label={"Compliance Due Date"} disable={disable?.due_date} name="due_date" type="date" />
-                <Select label="Status" options={status} register={register} name="status" />
+                <Input register={register} required label={"DOB"} name="dob" type="date" />
+                <Input register={register} required label={"Location"} name="location" type="text" />
+                <Input register={register} label={"Experience Years"} name="experience" type="number" />
+                <Input register={register} disable={disable?.name} label={"Adhar Number"} name="adhar" type="text" />
+                <Input register={register} label={"Skill 1"} name="skill1" type="text" />
+                <Input register={register} label={"Skill 2"} name="skill2" type="text" />
+                <Input register={register} label={"Skill 3"} name="skill3" type="text" />
+                <Input register={register} label={"Service/Occupation"} name="service" type="text" />
+                <Input register={register} label={"Profile Image Url"} name="profile_image" type="url" />
+                <Input register={register} label={"Portfolio Url 1"} name="portfolio1" type="url" />
+                <Input register={register} label={"Portfolio Url 2"} name="portfolio2" type="url" />
+                <Input register={register} label={"Portfolio Url 3"} name="portfolio2" type="url" />
+                <Textarea register={register} label={"Describe About Your Self"} name="bio" type="text" />
                 <div className='flex space-x-10'>
-                    <Button type="submit" text={update === true ? "Update" : "Submit"} />
-                    {update === true && user?.type === 'admin' && <Button del={true} func={async () => {
+                    <Button type="submit" text="Submit" />
+                    {update===true && <Button del={true} func={async () => {
                         const YES = prompt("If you are sure to delete: type 'YES'");
                         if (YES === "YES") {
-                            const res = await deleteComplaint(form_label);
+                            const res = await deleteUser(defaultValues.id);
                             alert(res.status);
+                            if(res.status==='success') signOut();
                             router.push('/');
                         }
                     }
@@ -74,5 +79,6 @@ function Form({ form_label, update, defaultValues, disable, id }) {
         </div>
     );
 }
+
 
 export default Form;

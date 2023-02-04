@@ -26,7 +26,7 @@ function Select({ label, children, register, required, type, name, options, disa
       ease-in-out
       m-0
       focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="Default select example">
-                    <option>{label}</option>
+                    <option selected>{label}</option>
                     {options.map(item => {
                         return <option value={item} key={item}>{item}</option>
                     })}

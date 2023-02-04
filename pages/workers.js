@@ -9,20 +9,19 @@ import { useSelector } from 'react-redux';
 import { } from 'next-redux-wrapper'
 import Head from 'next/head';
 // import { wrapper } from '@/store';
-function Complaints({ session1 }) {
+function Workers({ session1 }) {
     const user = useSelector(state => state?.user.user);
     const { data: session, status } = useSession();
-    console.log("complaints", session1);
     const router = useRouter();
     if (status === "unauthenticated") router.push('/');
     return (
         <div className=''>
             <Head>
-                <title>Jan Sunvai</title>
-                <meta name="description" content="Portal to resolve public issues. Completely Managed and Operated By SP Office" />
+                <title>Dihadi</title>
+                <meta name="description" content="Employment at Lowest Level" />
                 <meta name="author" content="Inderjit Shahi" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="shortcut icon" className='rounded-full' href="/logo/jan-sunvai-logo.png" type="image/x-icon"></link>
+                <link rel="shortcut icon" className='rounded-full' href="/undraw_job_offers_re_634p.svg" type="image/x-icon"></link>
             </Head>
             <Header />
             <main className='md:mx-10'>
@@ -33,7 +32,7 @@ function Complaints({ session1 }) {
     );
 }
 
-export default Complaints;
+export default Workers;
 
 // export const getStaticProps= wrapper.getStaticProps(async (store,req)=>{
 //     const user=store.getState();

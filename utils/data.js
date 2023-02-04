@@ -1,5 +1,5 @@
 import { db } from "@/firebase";
-import complaints from "@/pages/complaints";
+import complaints from "@/pages/workers";
 import { async } from "@firebase/util";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, QuerySnapshot, setDoc, updateDoc, where } from "firebase/firestore"
 
@@ -15,6 +15,17 @@ export const getUser = async (userRef) => {
     }
     return { error: "User Not Found" };
 }
+export const getUserByID = async (id) => {
+    // console.log(userRef);
+    const docRef = doc(db, 'users',id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        const id = docSnap.id;
+        return { id,...data};
+    }
+    return { error: "User Not Found" };
+}
 export const getComplaint = async (id) => {
     // console.log(userRef);
     const docRef = doc(db, 'complaints', id);
@@ -27,9 +38,9 @@ export const getComplaint = async (id) => {
     return { error: "Complaint Not Found" };
 }
 
-export const getComplaints = async (type, thana) => {
-    const collectionRef = collection(db, 'complaints');
-    const q = type === "admin" ? query(collectionRef) : query(collectionRef, where("thana", "==", thana));
+export const getWorkers = async () => {
+    const collectionRef = collection(db, 'users');
+    const q = query(collectionRef, where("type", "==", "worker"));
     const complaints = [];
     onSnapshot(q, (querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -38,8 +49,8 @@ export const getComplaints = async (type, thana) => {
     });
     return complaints;
 }
-export const getAllComplaints = async () => {
-    const collectionRef = collection(db, 'complaints');
+export const getAllUsers = async () => {
+    const collectionRef = collection(db, 'users');
     const q = query(collectionRef);
     const querySnapshot = await getDocs(q);
     const complaints = [];
@@ -49,32 +60,33 @@ export const getAllComplaints = async () => {
     return complaints;
 }
 
-export const addComplaint = async (data) => {
-    const collectionRef = collection(db, 'complaints');
+export const addUser = async (data) => {
+    const { name } = data;
+    const collectionRef = collection(db, 'users');
     try {
-        const res = await addDoc(collectionRef, { ...data });
-        return { id: res.id }
+        await addDoc(collectionRef,{ ...data },{name});
+        return { status: "success" }
     } catch (err) {
-        return err;
+        return {status:"error",error:err}
     }
 }
 
-export const updateComplaint = async (id, data) => {
-    const docRef = doc(db, 'complaints', id);
+export const updateUser = async (id, data) => {
+    const docRef = doc(db, 'users', id);
     try {
-        await setDoc(docRef, { ...data }, { merge: true });
-        return { status: 'success' };
+        const res=await setDoc(docRef, { ...data });
+        return { status: 'success',id:res?.id};
     }
     catch (err) {
-        return err;
+        return {status:"error",error:err};
     }
 }
 
-export const deleteComplaint = async (id) => {
+export const deleteUser = async (id) => {
     try {
-        deleteDoc(doc(db, 'complaints', id));
-        return { status: "Deleted Successfully" }
+        deleteDoc(doc(db, 'users', id));
+        return { status: "success" }
     } catch (err) {
-        return { status: "Can't Delete", error: err }
+        return { status: "error", error: err }
     }
 }

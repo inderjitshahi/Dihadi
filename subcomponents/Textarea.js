@@ -10,7 +10,7 @@ function Textarea({ label, children, register, required, type, name, disable }) 
                 >
                 <textarea
                     disabled={disable}
-                    {...register(name || "null", { required })}
+                    {...register(name, { required })}
                     type={type || "text"}
                     className={`
                     ${disable && "bg-gray-200"}

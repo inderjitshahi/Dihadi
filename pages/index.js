@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
+import { Inter } from '@next/font/google';
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Form from '@/components/Form'
@@ -22,13 +21,12 @@ export default function Home() {
   // const complaints = useSelector(state => state.complaints);
   const dispatch = useDispatch();
   const { data: session, status } = useSession();
+  console.log("index",session);
   useEffect(() => {
     const setUser = async () => {
       if (status === 'authenticated') {
         const user = await getUser(['users', session?.user?.name]);
-        dispatch(userActions.updateUser(user));
-        const complaints = await getComplaints(user?.type, user?.name);
-        dispatch(complaintActions.addComplaint(complaints));
+        dispatch(userActions.updateUser({id:session?.user?.name,...user}));
       }
     }
     setUser();
@@ -37,28 +35,26 @@ export default function Home() {
   const user = useSelector(state => state?.user?.user);
   if (status === 'loading') return <p>Loading...</p>;
   if (status === 'unauthenticated') return <div>
-    <Header/>
+    <Header />
     <div className='min-h-screen flex items-center justify-center text-purple-500 font-bold text-3xl'>
       <p>Please Login To Continue</p>
     </div>
     <Footer />
   </div>
-
-
   return (
     <>
       <Head>
-        <title>Jan Sunvai</title>
-        <meta name="description" content="Portal to resolve public issues. Completely Managed and Operated By SP Office"/>
+        <title>Dihadi</title>
+        <meta name="description" content="Employment at Lowest Level" />
         <meta name="author" content="Inderjit Shahi" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="shortcut icon" className='rounded-full' href="/logo/jan-sunvai-logo.png" type="image/x-icon"></link>
+        <link rel="shortcut icon" className='rounded-full' href="https://cdn.dribbble.com/users/1536793/screenshots/3434500/media/8e69dcf7f37f09c5b5204d308e75ad43.gif" type="image/x-icon"></link>
       </Head>
       <Header />
       {/* <Login/> */}
       <main className='flex flex-col items-center justify-center py-10 px-5 md:px-0 gap-10 flex-wrap md:flex-row'>
-        {user?.type === 'admin' && <Card title="New Compliant" link="/newComplaint" img={'/logo/undraw_questions_re_1fy7.svg'} description={'Write a new complaint here'} />}
-        <Card title="Complaints" link='/complaints' description={'See the ongoing complaints'} img={'/logo/undraw_to_do_list_re_9nt7.svg'} />
+        <Card title="Edit Profile" link={`/complaint/${user?.id}`} img={'/logo/undraw_updated_resume_re_7r9j.svg'} description={'Write a new complaint here'} />
+        <Card title="Hire" link='/workers' description={'See the ongoing complaints'} img={'/logo/undraw_swipe_profiles_re_tvqm.svg'} />
       </main>
       <Footer />
     </>

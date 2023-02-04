@@ -7,7 +7,7 @@ import { useGlobalFilter, useSortBy, useTable } from 'react-table';
 import { BiSortAlt2 } from 'react-icons/bi'
 import TableGlobalFilter from './TableGlobalFilter';
 import { useSelector } from 'react-redux';
-import { getComplaints } from '@/utils/data';
+import { getAllUsers, getComplaints, getWorkers } from '@/utils/data';
 
 function Table(props) {
     const [data, setData] = useState([]);
@@ -15,8 +15,7 @@ function Table(props) {
     useEffect(() => {
         if (user?.type) {
             async function getData() {
-                const complaints = await getComplaints(user.type, user.name);
-                // console.log("Table", complaints);
+                const complaints = await getWorkers();
                 setData(complaints);
             }
             getData();
@@ -28,7 +27,7 @@ function Table(props) {
     }, [data]);
 
     const columns = useMemo(() => (data[0] ?
-        Object.keys(data[0]).filter((key => (key !== 'email' && key !== 'directions' && key !== 'concern' && key !== 'compliance_report' && key !== 'case_number' && key !== 'phone'))).map((key) => {
+        Object.keys(data[0]).filter((key => (key !== 'email' && key !== 'type' && key !== 'profile_image' && key !== 'bio' && key !== 'adhar' && key !== 'id' && key !== 'dob' && key !== 'password' && key !== 'portfolio1' && key !== 'portfolio2' && key !== 'portfolio3' && key !== 'phone'))).map((key) => {
             if (key === 'image') {
                 return {
                     Header: key,
@@ -92,7 +91,7 @@ function Table(props) {
                                                     // console.log("id",id);
                                                     return (
                                                         <td key={Math.random()} className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap" {...cell.getCellProps()}>
-                                                            <Link href={`/complaint/${id}`}>
+                                                            <Link href={`/profile/${id}`}>
                                                                 {cell.render("Cell")}
                                                             </Link>
                                                         </td>
