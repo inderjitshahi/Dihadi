@@ -1,9 +1,9 @@
 import { db } from '@/firebase';
 import { userActions } from '@/store/userSlice';
-import Button from '@/subComponents/Button';
-import Input from '@/subComponents/Input';
-import Select from '@/subComponents/Select';
-import Textarea from '@/subComponents/Textarea';
+import Button from '@/subcomponents/Button';
+import Input from '@/subcomponents/Input';
+import Select from '@/subcomponents/Select';
+import Textarea from '@/subcomponents/Textarea';
 import { addComplaint, addUser, deleteComplaint, deleteUser, updateComplaint, UpdateComplaint, updateUser } from '@/utils/data';
 import { async } from '@firebase/util';
 import { doc, updateDoc } from 'firebase/firestore';
