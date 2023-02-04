@@ -8,8 +8,8 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Image from 'next/image';
-import Curasole from '@/subcomponents/Curasole';
-import Button from '@/subcomponents/Button';
+import Curasole from '@/subComponents/Curasole';
+import Button from '@/subComponents/Button';
 function Complaint({ complaint }) {
     // console.log(complaint);
     const router = useRouter()

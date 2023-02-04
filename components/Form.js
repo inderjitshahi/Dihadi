@@ -1,9 +1,9 @@
 import { db } from '@/firebase';
 import { userActions } from '@/store/userSlice';
-import Button from '@/subcomponents/Button';
-import Input from '@/subcomponents/Input';
-import Select from '@/subcomponents/Select';
-import Textarea from '@/subcomponents/Textarea';
+import Button from '@/subComponents/Button';
+import Input from '@/subComponents/Input';
+import Select from '@/subComponents/Select';
+import Textarea from '@/subComponents/Textarea';
 import { addComplaint, addUser, deleteComplaint, deleteUser, updateComplaint, UpdateComplaint, updateUser } from '@/utils/data';
 import { async } from '@firebase/util';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -13,8 +13,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
-function Form({ form_label, defaultValues, disable, id, signUp,update }) {
-    const dispatch=useDispatch();
+function Form({ form_label, defaultValues, disable, id, signUp, update }) {
+    const dispatch = useDispatch();
     const router = useRouter();
     const { register, handleSubmit } = useForm({
         defaultValues: {
@@ -24,16 +24,16 @@ function Form({ form_label, defaultValues, disable, id, signUp,update }) {
     const onSubmit = async (data) => {
         // alert( alert(JSON.stringify(data)));
         let res;
-        if (update===true) {
-            console.log("id",defaultValues?.id);
-            res= await updateUser(defaultValues?.id,data);
+        if (update === true) {
+            console.log("id", defaultValues?.id);
+            res = await updateUser(defaultValues?.id, data);
         } else {
             res = await addUser(data);
         }
         alert(res?.status);
-        if(res.error){
+        if (res.error) {
             console.log(res.error);
-        }else{
+        } else {
             dispatch(userActions.updateUser(data));
             router.push('/');
         }
@@ -64,12 +64,12 @@ function Form({ form_label, defaultValues, disable, id, signUp,update }) {
                 <Textarea register={register} label={"Describe About Your Self"} name="bio" type="text" />
                 <div className='flex space-x-10'>
                     <Button type="submit" text="Submit" />
-                    {update===true && <Button del={true} func={async () => {
+                    {update === true && <Button del={true} func={async () => {
                         const YES = prompt("If you are sure to delete: type 'YES'");
                         if (YES === "YES") {
                             const res = await deleteUser(defaultValues.id);
                             alert(res.status);
-                            if(res.status==='success') signOut();
+                            if (res.status === 'success') signOut();
                             router.push('/');
                         }
                     }
