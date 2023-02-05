@@ -6,7 +6,7 @@ import { userActions } from '@/store/userSlice';
 // import Select from '@/subComponents/Select';
 // import Textarea from '@/subComponents/Textarea';
 import { addUser, deleteUser, updateUser } from '@/utils/data';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -37,6 +37,8 @@ function Form({ form_label, defaultValues, disable, signUp, update }) {
             router.push('/');
         }
     }
+    // const { data: session, status } = useSession();
+    // if (status === 'authenticated') router.push('/');
     // const user = useSelector(status => status?.user?.user);
     const type = ["worker", "contractor"];
     return (
@@ -44,10 +46,13 @@ function Form({ form_label, defaultValues, disable, signUp, update }) {
             <h2 className='text-2xl font-semibold'>{defaultValues?.name}</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-5 w-full md:w-3/4 max-w-7xl items-center py-10">
 
-                <select options={type} className="w-3/4 py-2 border-2 rounded-lg px-5" register={register} required label={"User Type"} name="type" type="text" >
-                    {type.map(item => {
-                        return <option key={item} value={item}>{item}</option>
-                    })}
+                <select options={type} className="w-3/4 py-2 border-2 rounded-lg px-5" {...register('type')} required label={"User Type"}>
+
+                    {
+                        type.map(item => {
+                            return <option value={item} key={item}>{item}</option>
+                        })
+                    }
                 </select>
                 <input {...register('name',)} className="w-3/4 py-2 border-2 rounded-lg px-5" placeholder='Name' required disable={disable?.name} label={"Name"} name="name" type="text" />
                 <input {...register('password',)} className="w-3/4 py-2 border-2 rounded-lg px-5" required placeholder={"Password"} name="password" type="password" />
@@ -61,7 +66,7 @@ function Form({ form_label, defaultValues, disable, signUp, update }) {
                 <input {...register('skill2',)} className="w-3/4 py-2 border-2 rounded-lg px-5" placeholder={"Skill 2"} name="skill2" type="text" />
                 <input {...register('skill3',)} className="w-3/4 py-2 border-2 rounded-lg px-5" placeholder={"Skill 3"} name="skill3" type="text" />
                 <input {...register('service',)} className="w-3/4 py-2 border-2 rounded-lg px-5" placeholder={"Service/Occupation"} name="service" type="text" />
-                <input {...register('profile_image',)} className="w-3/4 py-2 border-2 rounded-lg px-5" placeholder={"Profile Image Url"} name="profile_image" type="url" />
+                <input {...register('profile_image',)} className="w-3/4 py-2 border-2 rounded-lg px-5" placeholder={"Profile Image Url"} type="url" />
                 <input {...register('portfolio1',)} className="w-3/4 py-2 border-2 rounded-lg px-5" placeholder={"Portfolio Url 1"} name="portfolio1" type="url" />
                 <input {...register('portfolio2',)} className="w-3/4 py-2 border-2 rounded-lg px-5" placeholder={"Portfolio Url 2"} name="portfolio2" type="url" />
                 <input {...register('portfolio3',)} className="w-3/4 py-2 border-2 rounded-lg px-5" placeholder={"Portfolio Url 3"} name="portfolio2" type="url" />

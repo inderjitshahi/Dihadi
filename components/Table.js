@@ -6,14 +6,18 @@ import { BiSortAlt2 } from 'react-icons/bi'
 import TableGlobalFilter from './TableGlobalFilter';
 import { useSelector } from 'react-redux';
 import { getAllUsers, getComplaints, getWorkers } from '@/utils/data';
+import { useSession } from 'next-auth/react';
 
 function Table(props) {
     const [data, setData] = useState([]);
     const user = useSelector(state => state.user?.user);
+    console.log("in Table",user);
+    // const {status}=useSession();
     useEffect(() => {
         if (user?.type) {
             async function getData() {
                 const complaints = await getWorkers();
+                console.log("table",complaints);
                 setData(complaints);
             }
             getData();

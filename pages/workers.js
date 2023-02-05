@@ -9,11 +9,12 @@ import { useSelector } from 'react-redux';
 import { } from 'next-redux-wrapper'
 import Head from 'next/head';
 // import { wrapper } from '@/store';
-function Workers({ session1 }) {
+function Workers() {
     const user = useSelector(state => state?.user.user);
-    const { data: session, status } = useSession();
-    const router = useRouter();
-    if (status === "unauthenticated") router.push('/');
+    // const { data: session, status } = useSession();
+    // const router = useRouter();
+    console.log("in workers");
+    // if (status === "unauthenticated") router.push('/');
     return (
         <div className=''>
             <Head>
