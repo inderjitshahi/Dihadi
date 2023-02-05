@@ -38,17 +38,20 @@ function Header(props) {
             <div>
 
                 {status === 'unauthenticated' && <div className='flex space-x-5'>
-                    <button text="Login" className='bg-blue-500 px-5 py-1 rounded-lg' onClick={() => {
+                    <button text="Login" data-mdb-ripple="true"
+                        data-mdb-ripple-color="light"  className='bg-blue-500 px-5 py-1 rounded-lg' onClick={() => {
                         signIn();
                     }} >SignIn</button>
-                    <button text="SignUp" className='bg-blue-500 px-5 py-1 rounded-lg' onClick={() => {
+                    <button text="SignUp" data-mdb-ripple="true"
+                        data-mdb-ripple-color="light"  className='bg-blue-500 px-5 py-1 rounded-lg' onClick={() => {
                         signUp();
                     }} >SignUp</button>
                 </div>
                 }
                 {status === 'authenticated' && <div className='flex items-center space-x-5'>
                     <p className='rounded-full text-sm bg-violet-800 px-6 py-2 overflow-hidden'><span>{user?.name}</span></p>
-                    <button text="Logout" className='bg-blue-500 px-5 py-1 rounded-lg' onClick={() => {
+                    <button text="Logout" data-mdb-ripple="true"
+                        data-mdb-ripple-color="light"  className='bg-blue-500 px-5 py-1 rounded-lg' onClick={() => {
                         dispatch(userActions.removeUser());
                         signOut();
                     }} >Logout</button>
