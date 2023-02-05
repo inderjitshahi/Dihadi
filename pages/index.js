@@ -36,8 +36,14 @@ export default function Home() {
   if (status === 'loading') return <p>Loading...</p>;
   if (status === 'unauthenticated') return <div>
     <Header />
-    <div className='min-h-screen flex items-center justify-center text-purple-500 font-bold text-3xl'>
-      <p>Please Login To Continue</p>
+    <div className='min-h-screen flex flex-col items-center justify-center text-purple-500 font-bold text-3xl'>
+      <div>
+        <p>Signup To Grow</p>
+      </div>
+      <div className='relative h-[50vh] w-screen overflow-hidden'>
+        <Image src='/logo/undraw_secure_login_pdn4.svg' fill alt="Login"/>
+      </div>
+      {/* <p>Please Login To Continue</p> */}
     </div>
     <Footer />
   </div>
