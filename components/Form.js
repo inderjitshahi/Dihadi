@@ -1,9 +1,11 @@
 import { userActions } from '@/store/userSlice';
+import Input from '@/subComponents/Input';
+import Select from '@/subComponents/Select';
 // import Button from '@/subComponents/Button';
 // import Input from '@/subComponents/Input';
 // import Select from '@/subComponents/Select';
 // import Textarea from '@/subComponents/Textarea';
-import {  addUser,  deleteUser, updateUser } from '@/utils/data';
+import { addUser, deleteUser, updateUser } from '@/utils/data';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -41,8 +43,8 @@ function Form({ form_label, defaultValues, disable, signUp, update }) {
         <div className='min-h-screen w-full flex items-center  flex-col space-y-5 py-5'>
             <h2 className='text-2xl font-semibold'>{defaultValues?.name}</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-full md:w-3/4 max-w-7xl items-center py-10">
-                <select options={type} register={register} required label={"User Type"} name="type" type="text" />
-                <input register={register} required disable={disable?.name} label={"Name"} name="name" type="text" />
+                <Select options={type} register={register} required label={"User Type"} name="type" type="text" />
+                <Input register={register} className="border-2" placeholder='Name' required disable={disable?.name} label={"Name"} name="name" type="text" />
                 <input register={register} required label={"Password"} name="password" type="password" />
                 <input register={register} label={"Email"} name="email" disable={disable?.email} type="email" />
                 <input register={register} required label={"Phone Number"} disable={disable?.phone} name="phone" type={'tel'} />
