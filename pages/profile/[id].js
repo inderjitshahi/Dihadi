@@ -68,9 +68,9 @@ export async function getStaticProps(context) {
     const { params } = context;
     const id = params.id;
     let complaint = await getUserByID(id);
-    console.log(id);
+    // console.log(id);
     complaint = { id, ...complaint }
-    console.log(complaint);
+    // console.log(complaint);
     return {
         props: {
             complaint

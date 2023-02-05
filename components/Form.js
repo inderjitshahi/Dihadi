@@ -1,19 +1,16 @@
-import { db } from '@/firebase';
 import { userActions } from '@/store/userSlice';
-import Button from '../subComponents/Button';
-import Input from '../subComponents/Input';
-import Select from '../subComponents/Select';
-import Textarea from '../subComponents/Textarea';
-import { addComplaint, addUser, deleteComplaint, deleteUser, updateComplaint, UpdateComplaint, updateUser } from '@/utils/data';
-import { async } from '@firebase/util';
-import { doc, updateDoc } from 'firebase/firestore';
+import Button from '@/subComponents/Button';
+import Input from '@/subComponents/Input';
+import Select from '@/subComponents/Select';
+import Textarea from '@/subComponents/Textarea';
+import {  addUser,  deleteUser, updateUser } from '@/utils/data';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
-function Form({ form_label, defaultValues, disable, id, signUp, update }) {
+function Form({ form_label, defaultValues, disable, signUp, update }) {
     const dispatch = useDispatch();
     const router = useRouter();
     const { register, handleSubmit } = useForm({
@@ -25,7 +22,7 @@ function Form({ form_label, defaultValues, disable, id, signUp, update }) {
         // alert( alert(JSON.stringify(data)));
         let res;
         if (update === true) {
-            // console.log("id", defaultValues?.id);
+            console.log("id", defaultValues?.id);
             res = await updateUser(defaultValues?.id, data);
         } else {
             res = await addUser(data);
@@ -38,7 +35,7 @@ function Form({ form_label, defaultValues, disable, id, signUp, update }) {
             router.push('/');
         }
     }
-    const user = useSelector(status => status?.user?.user);
+    // const user = useSelector(status => status?.user?.user);
     const type = ["worker", "contractor"];
     return (
         <div className='min-h-screen w-full flex items-center  flex-col space-y-5 py-5'>

@@ -1,4 +1,4 @@
-import Button from '../subComponents/Button';
+import Button from '@/subComponents/Button';
 import Link from 'next/link';
 import React from 'react';
 import { userActions } from '@/store/userSlice';

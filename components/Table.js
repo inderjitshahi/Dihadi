@@ -1,5 +1,3 @@
-import Button from '@/subComponents/Button';
-import axios from 'axios';
 import Link from 'next/link';
 import Image from 'next/image';
 import React, { useEffect, useMemo, useState } from 'react';
