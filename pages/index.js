@@ -15,17 +15,18 @@ import { db } from '@/firebase'
 import { getAllComplaints, getComplaints, getUser } from '@/utils/data'
 import { userActions } from '@/store/userSlice'
 import { async } from '@firebase/util'
+import Link from 'next/link';
 const inter = Inter({ subsets: ['latin'] });
 export default function Home() {
   // const complaints = useSelector(state => state.complaints);
   const dispatch = useDispatch();
   const { data: session, status } = useSession();
-  console.log("index",session);
+  console.log("index", session);
   useEffect(() => {
     const setUser = async () => {
       if (status === 'authenticated') {
         const user = await getUser(['users', session?.user?.name]);
-        dispatch(userActions.updateUser({id:session?.user?.name,...user}));
+        dispatch(userActions.updateUser({ id: session?.user?.name, ...user }));
       }
     }
     setUser();
@@ -52,8 +53,40 @@ export default function Home() {
       <Header />
       {/* <Login/> */}
       <main className='flex flex-col items-center justify-center py-10 px-5 md:px-0 gap-10 flex-wrap md:flex-row'>
-        <Card title="Edit Profile" link={`/complaint/${user?.id}`} img={'/logo/undraw_updated_resume_re_7r9j.svg'} description={'Write a new complaint here'} />
-        <Card title="Hire" link='/workers' description={'See the ongoing complaints'} img={'/logo/undraw_swipe_profiles_re_tvqm.svg'} />
+        <Link href={`/complaint/${user?.id}`}>
+          <div className="flex justify-center items-center h-[35vh]">
+            <div className="rounded-lg shadow-lg bg-white max-w-sm h-full grid grid-cols-2">
+              <div data-mdb-ripple="true" data-mdb-ripple-color="light" className='relative rounded-lg overflow-hidden grid-col-1'>
+                <Image src={'/logo/undraw_updated_resume_re_7r9j.svg' || "https://mdbootstrap.com/img/new/standard/nature/182.jpg"} alt="image" fill />
+              </div>
+              <div className="p-6 overflow-hidden">
+                <h5 className="text-gray-900 text-md md:text-xl font-medium mb-2">{'Edit Profile'}</h5>
+                <p className="text-gray-500 text-sm md:text-md mb-4">
+                  {'Write a new complaint here'|| ""}
+                </p>
+                <button type="button" text="Open" className=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Open</button>
+              </div>
+            </div>
+          </div>
+        </Link>
+        <Link href={`/workers`}>
+          <div className="flex justify-center items-center h-[35vh]">
+            <div className="rounded-lg shadow-lg bg-white max-w-sm h-full grid grid-cols-2">
+              <div data-mdb-ripple="true" data-mdb-ripple-color="light" className='relative rounded-lg overflow-hidden grid-col-1'>
+                <Image src={'/logo/undraw_swipe_profiles_re_tvqm.svg' || "https://mdbootstrap.com/img/new/standard/nature/182.jpg"} alt="image" fill />
+              </div>
+              <div className="p-6 overflow-hidden">
+                <h5 className="text-gray-900 text-md md:text-xl font-medium mb-2">{'Edit Profile'}</h5>
+                <p className="text-gray-500 text-sm md:text-md mb-4">
+                  {'Write a new complaint here'|| ""}
+                </p>
+                <button type="button" text="Open" className=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Open</button>
+              </div>
+            </div>
+          </div>
+        </Link>
+        {/* <Card title="Edit Profile" link={`/complaint/${user?.id}`} img={'/logo/undraw_updated_resume_re_7r9j.svg'} description={'Write a new complaint here'} /> */}
+        {/* <Card title="Hire" link='/workers' description={'See the ongoing complaints'} img={'/logo/undraw_swipe_profiles_re_tvqm.svg'} /> */}
       </main>
       <Footer />
     </>
