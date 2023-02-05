@@ -8,8 +8,8 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Image from 'next/image';
-import Curasole from '@/subComponents/Curasole';
-import Button from '@/subComponents/Button';
+// import Curasole from '@/subComponents/Curasole';
+// import Button from '@/subComponents/Button';
 function Complaint({ complaint }) {
     // console.log(complaint);
     const router = useRouter()
@@ -41,11 +41,11 @@ function Complaint({ complaint }) {
                     <p className='grid grid-cols-2 space-x-10 font-semibold text-xl italic'><span className='text-purple-500 grid-cols-1'>Location:</span><span>{complaint.location || "not provided"}</span></p>
                     <p className='grid grid-cols-2 space-x-10 font-semibold text-xl italic'><span className='text-purple-500 grid-cols-1'>Service:</span><span>{complaint.service || "not provided"}</span></p>
                     <p className='grid grid-cols-2 space-x-10 font-semibold text-xl italic'><span className='text-purple-500 grid-cols-1'>Skills:</span><span>{`${complaint.skill1}, ${complaint.skill2}, ${complaint.skill3} ` || "not provided"}</span></p>
-                    <Button text={'Hire'} />
+                    <button text={'Hire'} />
                 </div>
                 <div className='w-full max-w-7xl md:w-[90%]'>
                     <p className='text-3xl text-purple-500 font-semibold my-3 text-center'>Portfolio</p>
-                    <Curasole img={img} />
+                    {/* <Curasole img={img} /> */}
                 </div>
             </div>
             <Footer />

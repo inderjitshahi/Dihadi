@@ -1,4 +1,4 @@
-import Button from '@/subComponents/Button';
+// import Button from '@/subComponents/Button';
 import Link from 'next/link';
 import React from 'react';
 import { userActions } from '@/store/userSlice';
@@ -38,20 +38,20 @@ function Header(props) {
             <div>
 
                 {status === 'unauthenticated' && <div className='flex space-x-5'>
-                    <Button text="Login" func={() => {
+                    <button text="Login" className='bg-blue-500 px-5 py-1 rounded-lg' onClick={() => {
                         signIn();
-                    }} />
-                    <Button text="SignUp" func={() => {
+                    }} >SignIn</button>
+                    <button text="SignUp" className='bg-blue-500 px-5 py-1 rounded-lg' onClick={() => {
                         signUp();
-                    }} />
+                    }} >SignUp</button>
                 </div>
                 }
                 {status === 'authenticated' && <div className='flex items-center space-x-5'>
                     <p className='rounded-full text-sm bg-violet-800 px-6 py-2 overflow-hidden'><span>{user?.name}</span></p>
-                    <Button text="Logout" func={() => {
+                    <button text="Logout" className='bg-blue-500 px-5 py-1 rounded-lg' onClick={() => {
                         dispatch(userActions.removeUser());
                         signOut();
-                    }} />
+                    }} >Logout</button>
                 </div>}
             </div>
         </div>
