@@ -1,9 +1,9 @@
 import { db } from '@/firebase';
 import { userActions } from '@/store/userSlice';
-import Button from '@/subComponents/Button';
-import Input from '@/subComponents/Input';
-import Select from '@/subComponents/Select';
-import Textarea from '@/subComponents/Textarea';
+import Button from '../subComponents/Button';
+import Input from '../subComponents/Input';
+import Select from '../subComponents/Select';
+import Textarea from '../subComponents/Textarea';
 import { addComplaint, addUser, deleteComplaint, deleteUser, updateComplaint, UpdateComplaint, updateUser } from '@/utils/data';
 import { async } from '@firebase/util';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -25,7 +25,7 @@ function Form({ form_label, defaultValues, disable, id, signUp, update }) {
         // alert( alert(JSON.stringify(data)));
         let res;
         if (update === true) {
-            console.log("id", defaultValues?.id);
+            // console.log("id", defaultValues?.id);
             res = await updateUser(defaultValues?.id, data);
         } else {
             res = await addUser(data);
